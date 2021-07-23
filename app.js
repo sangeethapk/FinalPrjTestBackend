@@ -1,6 +1,8 @@
 const express = require('express');
 const Retaildata = require('./src/model/Retaildata');
 const RetailCoursedata = require('./src/model/RetailCoursedata');
+const InstitutionalCoursedata = require('./src/model/InstitutionalCoursedata');
+const CorporateCoursedata = require('./src/model/CorporateCoursedata');
 var nodemailer = require('nodemailer');
 
 //const User = require('./src/model/user');
@@ -104,6 +106,7 @@ const sendConfirmationMail = (user, callback) => {
   agenda:req.body.course.agenda,
   highlights:req.body.course.highlights,
   eligibility:req.body.course.eligibility,
+  age:req.body.course.age,
   test:req.body.course.test,
   courseFee:req.body.course.courseFee,
   refundPolicy:req.body.course.refundPolicy,
@@ -111,20 +114,59 @@ const sendConfirmationMail = (user, callback) => {
   img1:req.body.course.img1,
   img2:req.body.course.img2,
   questionPaperLink:req.body.course.questionPaperLink,
-  status:req.body.course.status
+  status:req.body.course.status,
+  brochureTitle:req.body.course.brochureTitle
     
 
    }
-console.log(item.name+"....inserted");
-var retail=RetailCoursedata(item);
-try{
-retail.save();
 
-}
-catch(err){
-  console.log("Cannot insert retail course data "+err);
-}
+//------------Check for the catogery-----------
+
+
+if(item.category==="Retail"){
+  console.log(item.name+"....inserted");
+  var retail=RetailCoursedata(item);
+  try{
+  retail.save();
+  
+  }
+  catch(err){
+    console.log("Cannot insert retail course data "+err);
+  }
+
+}//endif
+else if(item.category==="Institutional"){
+  console.log(item.name+"....inserted in Institutioal");
+  var retail=InstitutionalCoursedata(item);
+  try{
+  retail.save();
+  
+  }
+  catch(err){
+    console.log("Cannot insert instutional course data "+err);
+  }
+
+}//end else if
+
+else if(item.category==="Corporate"){
+  console.log(item.name+"....inserted in Institutioal");
+  var retail=CorporateCoursedata(item);
+  try{
+  retail.save();
+  
+  }
+  catch(err){
+    console.log("Cannot insert corporate course data "+err);
+  }
+
+}//end else if
+
+
+
  });
+
+ //----------------------------End---------------------------------------
+ //---------------Get Retail data----------------------------------------
 app.get('/getRetailCourseData',function(req,res){
     
 
@@ -141,6 +183,59 @@ app.get('/getRetailCourseData',function(req,res){
               console.log(err+"dispal...");
           }
 });
+//________________________________End___________________________________________
+//--------------------------------Start get Institutional data-----------------
+app.get('/getInstitutionalCourseData',function(req,res){
+    
+
+  console.log("Inside display server");
+  try{
+  InstitutionalCoursedata.find()
+              .then(function(data){
+                  console.log(data);
+                  res.send(data);
+                 
+              });
+          }
+          catch(err){
+              console.log(err+"dispal...");
+          }
+});
+//_______________________________________________________________________________________
+//--------------------------------Start get Corporate data-----------------
+app.get('/getCorporateCourseData',function(req,res){
+    
+
+  console.log("Inside display server");
+  try{
+  CorporateCoursedata.find()
+              .then(function(data){
+                  console.log(data);
+                  res.send(data);
+                 
+              });
+          }
+          catch(err){
+              console.log(err+"dispal...");
+          }
+});
+//______________________________End_____________________________________
+
+
+
+// -----------------------------get single course details-------------
+
+
+app.get('/getRetailCourseDetails/:name',  (req, res) => {
+
+  console.log("Inside Single Course Details :");
+  const name = req.params.name;
+  RetailCoursedata.findOne({"name":name})
+  .then((course)=>{
+    console.log("Single Course Details :"+course.name+"---"+course);
+      res.send(course);
+  });
+})
 
 
 

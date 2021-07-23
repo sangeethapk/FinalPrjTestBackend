@@ -8,7 +8,7 @@ const mongoose=require('mongoose');
 
 
 const Schema=mongoose.Schema;
-const RetailCourseSchema=new Schema({
+const CorporatCourseSchema=new Schema({
    
     name:String,
   category:String,
@@ -34,5 +34,5 @@ const RetailCourseSchema=new Schema({
    
 });
 
-var RetailCourse=mongoose.model('retailCourse',RetailCourseSchema);
-module.exports=RetailCourse;
+var CorporateCourse=mongoose.model('corporateCourse',CorporatCourseSchema);
+module.exports=CorporateCourse;
