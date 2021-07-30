@@ -123,7 +123,7 @@ const sendConfirmationMail = (user, callback) => {
 //------------Check for the catogery-----------
 
 
-if(item.category==="Retail"){
+
   console.log(item.name+"....inserted");
   var retail=RetailCoursedata(item);
   try{
@@ -133,23 +133,96 @@ if(item.category==="Retail"){
   catch(err){
     console.log("Cannot insert retail course data "+err);
   }
+ });
 
-}//endif
-else if(item.category==="Institutional"){
-  console.log(item.name+"....inserted in Institutioal");
+
+//Add Institutional Courses
+
+
+app.post('/addInstitutionalCourse',function(req,res){
+  console.log(req.body.course.name+"Inside Server of addInstitutionalcourse");
+     
+  var item=  {
+  
+  name:req.body.course.name,
+
+  about:req.body.course.about,
+  objective:req.body.course.objective,
+  sponserimage:req.body.course.sponserimage,
+  knowledgeParterimage:req.body.course.knowledgeParterimage,
+  internshipPartnerimage:req.body.course.internshipPartnerimage,
+  courseDelivery:req.body.course.courseDelivery,
+  agenda:req.body.course.agenda,
+  highlights:req.body.course.highlights,
+  eligibility:req.body.course.eligibility,
+  age:req.body.course.age,
+  test:req.body.course.test,
+  courseFee:req.body.course.courseFee,
+  refundPolicy:req.body.course.refundPolicy,
+  importantDates:req.body.course.importantDates,
+  img1:req.body.course.img1,
+  img2:req.body.course.img2,
+  questionPaperLink:req.body.course.questionPaperLink,
+  status:req.body.course.status,
+  brochureTitle:req.body.course.brochureTitle
+    
+
+   }
+
+//------------Check for the catogery-----------
+
+
+
+  console.log(item.name+"....inserted");
   var retail=InstitutionalCoursedata(item);
   try{
   retail.save();
   
   }
   catch(err){
-    console.log("Cannot insert instutional course data "+err);
+    console.log("Cannot insert institutional course data "+err);
   }
+ });
 
-}//end else if
 
-else if(item.category==="Corporate"){
-  console.log(item.name+"....inserted in Institutioal");
+
+ //----------------------------End---------------------------------------
+
+ app.post('/addCorporateCourse',function(req,res){
+  console.log(req.body.course.name+"Inside Server of addInstitutionalcourse");
+     
+  var item=  {
+  
+  name:req.body.course.name,
+
+  about:req.body.course.about,
+  objective:req.body.course.objective,
+  sponserimage:req.body.course.sponserimage,
+  knowledgeParterimage:req.body.course.knowledgeParterimage,
+  internshipPartnerimage:req.body.course.internshipPartnerimage,
+  courseDelivery:req.body.course.courseDelivery,
+  agenda:req.body.course.agenda,
+  highlights:req.body.course.highlights,
+  eligibility:req.body.course.eligibility,
+  age:req.body.course.age,
+  test:req.body.course.test,
+  courseFee:req.body.course.courseFee,
+  refundPolicy:req.body.course.refundPolicy,
+  importantDates:req.body.course.importantDates,
+  img1:req.body.course.img1,
+  img2:req.body.course.img2,
+  questionPaperLink:req.body.course.questionPaperLink,
+  status:req.body.course.status,
+  brochureTitle:req.body.course.brochureTitle
+    
+
+   }
+
+//------------Check for the catogery-----------
+
+
+
+  console.log(item.name+"....inserted");
   var retail=CorporateCoursedata(item);
   try{
   retail.save();
@@ -158,14 +231,10 @@ else if(item.category==="Corporate"){
   catch(err){
     console.log("Cannot insert corporate course data "+err);
   }
-
-}//end else if
-
-
-
  });
 
- //----------------------------End---------------------------------------
+
+
  //---------------Get Retail data----------------------------------------
 app.get('/getRetailCourseData',function(req,res){
     
@@ -239,6 +308,76 @@ app.get('/getRetailCourseDetails/:name',  (req, res) => {
 
 
 
+app.get('/getInstitutionalCourseDetails/:name',  (req, res) => {
+
+  console.log("Inside Single Course Details :");
+  const name = req.params.name;
+  InstitutionalCoursedata.findOne({"name":name})
+  .then((course)=>{
+    console.log("Single Course Details :"+course.name+"---"+course);
+      res.send(course);
+  });
+})
+
+
+
+app.get('/getCorporateCourseDetails/:name',  (req, res) => {
+
+  console.log("Inside Single Course Details :");
+  const name = req.params.name;
+  CorporateCoursedata.findOne({"name":name})
+  .then((course)=>{
+    console.log("Single Course Details :"+course.name+"---"+course);
+      res.send(course);
+  });
+})
+//----------------------------Delete and Update of courses----------
+
+app.delete("/retailcourse/:name",(req, res) => {
+
+  let name = req.params.name;
+  RetailCoursedata.findOneAndDelete({"name":name})
+  .then(()=>{
+      console.log('success')
+      res.send();
+  })
+});
+
+  app.delete("/institutional/course/:name",(req, res) => {
+   let name = req.params.name;
+    InstitutionalCoursedata.findOneAndDelete({"name":name})
+    .then(()=>{
+        console.log('success')
+        res.send();
+    })
+
+  })
+  app.delete("/corporate/course/:name",(req, res) => {
+
+   let name = req.params.name;
+    CorporateCoursedata.findOneAndDelete({"name":name})
+    .then(()=>{
+        console.log('success')
+        res.send();
+    })
+  })
+
+  //-----------------------Update------------------------------------------
+
+  app.put('/retail/update/:name',(req,res)=>{
+    console.log("Hello inside put"+req.body.name +"   o"+req.params.oldname)
+    const update = {
+    author:req.body.author,
+    author:req.body.author,
+    genre:req.body.genre,
+    description:req.body.description,
+    image:req.body.image
+    };
+   RetailCoursedata.findOneAndUpdate({"name":req.params.name},update)
+   .then(function(){
+      res.send();
+  });
+})
 
 app.listen(3000, function(){
     console.log('listening to port 3000');

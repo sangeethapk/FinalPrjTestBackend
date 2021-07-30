@@ -10,7 +10,7 @@ const mongoose=require('mongoose');
 const Schema=mongoose.Schema;
 const RetailCourseSchema=new Schema({
    
-    name:String,
+    name:{type:String,unique: true},
   category:String,
   about:String,
   objective:String,

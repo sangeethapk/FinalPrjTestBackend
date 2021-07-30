@@ -10,9 +10,8 @@ const mongoose=require('mongoose');
 const Schema=mongoose.Schema;
 const InstitutionalCourseSchema=new Schema({
    
-    name:String,
-  category:String,
-  about:String,
+    name:{type:String,unique: true},
+   about:String,
   objective:String,
   sponserimage:String,
   knowledgeParterimage:String,

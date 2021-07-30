@@ -10,8 +10,7 @@ const mongoose=require('mongoose');
 const Schema=mongoose.Schema;
 const CorporatCourseSchema=new Schema({
    
-    name:String,
-  category:String,
+    name:{type:String,unique: true},
   about:String,
   objective:String,
   sponserimage:String,
