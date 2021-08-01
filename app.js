@@ -297,7 +297,7 @@ app.get('/getCorporateCourseData',function(req,res){
 
 app.get('/getRetailCourseDetails/:name',  (req, res) => {
 
-  console.log("Inside Single Course Details :");
+  console.log("Inside Single Course Details :"+req.params.name);
   const name = req.params.name;
   RetailCoursedata.findOne({"name":name})
   .then((course)=>{
@@ -364,21 +364,114 @@ app.delete("/retailcourse/:name",(req, res) => {
 
   //-----------------------Update------------------------------------------
 
-  app.put('/retail/update/:name',(req,res)=>{
-    console.log("Hello inside put"+req.body.name +"   o"+req.params.oldname)
-    const update = {
-    author:req.body.author,
-    author:req.body.author,
-    genre:req.body.genre,
-    description:req.body.description,
-    image:req.body.image
-    };
-   RetailCoursedata.findOneAndUpdate({"name":req.params.name},update)
+  app.put('/retailcourseupdate/:name',(req,res)=>{
+    console.log("Hello inside put"+req.body.name +"   o"+req.params.name)
+    var item=  {
+  
+      name:req.body.name,
+      category:req.body.category,
+      about:req.body.about,
+      objective:req.body.objective,
+      sponserimage:req.body.sponserimage,
+      knowledgeParterimage:req.body.knowledgeParterimage,
+      internshipPartnerimage:req.body.internshipPartnerimage,
+      courseDelivery:req.body.courseDelivery,
+      agenda:req.body.agenda,
+      highlights:req.body.highlights,
+      eligibility:req.body.eligibility,
+      age:req.body.age,
+      test:req.body.test,
+      courseFee:req.body.courseFee,
+      refundPolicy:req.body.refundPolicy,
+      importantDates:req.body.importantDates,
+      img1:req.body.img1,
+      img2:req.body.img2,
+      questionPaperLink:req.body.questionPaperLink,
+      status:req.body.status,
+      brochureTitle:req.body.brochureTitle
+        
+    
+       }
+    
+   RetailCoursedata.findOneAndUpdate({"name":req.params.name},item)
    .then(function(){
       res.send();
   });
 })
 
+
+
+
+
+app.put('/corporatecourseupdate/:name',(req,res)=>{
+  console.log("Hello inside put"+req.body.name +"   o"+req.params.name)
+  var item=  {
+
+    name:req.body.name,
+  
+    about:req.body.about,
+    objective:req.body.objective,
+    sponserimage:req.body.sponserimage,
+    knowledgeParterimage:req.body.knowledgeParterimage,
+    internshipPartnerimage:req.body.internshipPartnerimage,
+    courseDelivery:req.body.courseDelivery,
+    agenda:req.body.agenda,
+    highlights:req.body.highlights,
+    eligibility:req.body.eligibility,
+    age:req.body.age,
+    test:req.body.test,
+    courseFee:req.body.courseFee,
+    refundPolicy:req.body.refundPolicy,
+    importantDates:req.body.importantDates,
+    img1:req.body.img1,
+    img2:req.body.img2,
+    questionPaperLink:req.body.questionPaperLink,
+    status:req.body.status,
+    brochureTitle:req.body.brochureTitle
+      
+  
+     }
+  
+ CorporateCoursedata.findOneAndUpdate({"name":req.params.name},item)
+ .then(function(){
+    res.send();
+});
+})
+
+
+
+app.put('/institutionalcourseupdate/:name',(req,res)=>{
+  console.log("Hello inside put :"+req.body.name +"   o "+req.params.name)
+  var update=  {
+    name:req.body.name,  
+    about:req.body.about,
+    objective:req.body.objective,
+    sponserimage:req.body.sponserimage,
+    knowledgeParterimage:req.body.knowledgeParterimage,
+    internshipPartnerimage:req.body.internshipPartnerimage,
+    courseDelivery:req.body.courseDelivery,
+    agenda:req.body.agenda,
+    highlights:req.body.highlights,
+    eligibility:req.body.eligibility,
+    age:req.body.age,
+    test:req.body.test,
+    courseFee:req.body.courseFee,
+    refundPolicy:req.body.refundPolicy,
+    importantDates:req.body.importantDates,
+    img1:req.body.img1,
+    img2:req.body.img2,
+    questionPaperLink:req.body.questionPaperLink,
+    status:req.body.status,
+    brochureTitle:req.body.brochureTitle
+      
+  
+     }
+  
+ InstitutionalCoursedata.findOneAndUpdate({"name":req.params.name},update)
+ .then(function(){
+    res.send();
+});
+})
 app.listen(3000, function(){
     console.log('listening to port 3000');
 });
