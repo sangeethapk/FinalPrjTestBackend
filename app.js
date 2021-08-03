@@ -1,5 +1,7 @@
 const express = require('express');
 const Retaildata = require('./src/model/Retaildata');
+const CorporateRequestdata=require('./src/model/CorporateRequestData');
+const InstitutionalRequestdata=require('./src/model/InstitutionalRequest');
 const RetailCoursedata = require('./src/model/RetailCoursedata');
 const InstitutionalCoursedata = require('./src/model/InstitutionalCoursedata');
 const CorporateCoursedata = require('./src/model/CorporateCoursedata');
@@ -64,6 +66,121 @@ app.get('/display',function(req,res){
                 console.log(err+"dispal...");
             }
 });
+app.post('/insertInstitutionalRequest',function(req,res){
+  console.log(req.body);
+     
+  var item=
+
+  {
+  name:req.body.applicant.name,
+  phone:req.body.applicant.phone,
+  email:req.body.applicant.email,
+  employed:req.body.applicant.employed,
+  highest_qualification:req.body.applicant.qualification,
+  messsage:req.body.applicant.message,
+  //downloaded:req.body.retail.downloaded
+
+   }
+
+
+try{
+var instituional=InstitutionalRequestdata(item);
+instituional.save();
+sendConfirmationMail(item, (err, info) => {
+  if (err) {
+    console.log(err);
+    res.status(400);
+    res.send({ error: "Failed to send email" });
+  } else {
+    console.log("Email has been sent");
+    res.send(info);
+  }
+});
+}
+catch(err){
+
+  console.log(err+"not connected");
+}
+});
+
+app.get('/displayInstitutionalRequest',function(req,res){
+  
+
+  console.log("Inside display server");
+  try{
+    InstitutionalRequestdata.find()
+              .then(function(data){
+                  console.log(data);
+                  res.send(data);
+                 
+              });
+          }
+          catch(err){
+              console.log(err+"dispal...");
+          }
+});
+
+
+
+
+app.post('/insertCorporateRequest',function(req,res){
+  console.log(req.body);
+     
+  var item=
+
+  {
+  name:req.body.applicant.name,
+  phone:req.body.applicant.phone,
+  email:req.body.applicant.email,
+  employed:req.body.applicant.employed,
+  highest_qualification:req.body.applicant.qualification,
+  messsage:req.body.applicant.message,
+  //downloaded:req.body.retail.downloaded
+
+   }
+
+
+try{
+var corporate=CorporateRequestdata(item);
+corporate.save();
+sendConfirmationMail(item, (err, info) => {
+  if (err) {
+    console.log(err);
+    res.status(400);
+    res.send({ error: "Failed to send email" });
+  } else {
+    console.log("Email has been sent");
+    res.send(info);
+  }
+});
+}
+catch(err){
+
+  console.log(err+"not connected");
+}
+});
+
+app.get('/displayCorporateRequest',function(req,res){
+  
+
+  console.log("Inside display server");
+  try{
+    CorporateRequestdata.find()
+              .then(function(data){
+                  console.log(data);
+                  res.send(data);
+                 
+              });
+          }
+          catch(err){
+              console.log(err+"dispal...");
+          }
+});
+
+
+
+
+
 
 //sent mail---------------------
 const sendConfirmationMail = (user, callback) => {
