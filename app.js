@@ -25,7 +25,7 @@ app.post('/insert',function(req,res){
     email:req.body.applicant.email,
     employed:req.body.applicant.employed,
     highest_qualification:req.body.applicant.qualification,
-    messsage:req.body.applicant.message,
+    messsage:req.body.applicant.messsage,
     //downloaded:req.body.retail.downloaded
 
      }
@@ -57,7 +57,7 @@ app.get('/display',function(req,res){
     try{
     Retaildata.find()
                 .then(function(data){
-                    console.log(data);
+                    console.log("Retail request:"+data);
                     res.send(data);
                    
                 });
@@ -77,7 +77,7 @@ app.post('/insertInstitutionalRequest',function(req,res){
   email:req.body.applicant.email,
   employed:req.body.applicant.employed,
   highest_qualification:req.body.applicant.qualification,
-  messsage:req.body.applicant.message,
+  messsage:req.body.applicant.messsage,
   //downloaded:req.body.retail.downloaded
 
    }
@@ -134,7 +134,7 @@ app.post('/insertCorporateRequest',function(req,res){
   email:req.body.applicant.email,
   employed:req.body.applicant.employed,
   highest_qualification:req.body.applicant.qualification,
-  messsage:req.body.applicant.message,
+  messsage:req.body.applicant.messsage,
   //downloaded:req.body.retail.downloaded
 
    }
