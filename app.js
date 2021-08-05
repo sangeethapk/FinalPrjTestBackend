@@ -6,6 +6,9 @@ const RetailCoursedata = require('./src/model/RetailCoursedata');
 const InstitutionalCoursedata = require('./src/model/InstitutionalCoursedata');
 const CorporateCoursedata = require('./src/model/CorporateCoursedata');
 const MemberData =require('./src/model/ourteam');
+const CorporatemembershipcontactusData = require('./src/model/Corporatemembershipcontactusdata');
+const PartnerData = require('./src/model/Partnershipdata');
+const CorporatemembershipregisterData = require('./src/model/Corporatemembershipregisterdata');
 var nodemailer = require('nodemailer');
 
 //const User = require('./src/model/user');
@@ -656,6 +659,115 @@ app.put('/updatemember/:name',(req,res)=>{
 })
 
 // --------------------------------------End----------------------------------------
+
+
+//----------------------------------------------------PArtnership membership--------
+
+app.post('/insertContactus',function(req,res){
+   
+  console.log(req.body);
+ 
+  var contactus = {       
+      name : req.body.contactus.name,
+      email : req.body.contactus.email,
+      msg : req.body.contactus.message
+ }       
+ var contactus = new CorporatemembershipcontactusData(contactus);
+ contactus.save();
+});
+
+
+app.post('/insertpartner',function(req,res){
+   
+  console.log(req.body);
+ 
+  var partner = {       
+      name : req.body.partner.name,
+      email : req.body.partner.email,
+      phone : req.body.partner.phone,
+      firmname : req.body.partner.firmname,
+      address : req.body.partner.address,
+      district : req.body.partner.district,
+      officespace : req.body.partner.officespace,
+      outcome : req.body.partner.outcome,
+      expectation : req.body.partner.expectation,
+      profile : req.body.partner.profile,
+      noofemployees : req.body.partner.noofemployees
+ }       
+ var partner = new PartnerData(partner);
+ //partner.save();
+ try{
+  partner.save();
+  sendConfirmationMail(partner, (err, info) => {
+     if (err) {
+       console.log(err);
+       res.status(400);
+       res.send({ error: "Failed to send email" });
+     } else {
+       console.log("Email has been sent");
+       res.send(info);
+     }
+   });
+  }
+  catch(err){
+ 
+     console.log(err+"not connected");
+  }
+});
+
+app.post('/insertcorporatemember',function(req,res){
+ 
+  console.log(req.body);
+ 
+  var corporatemember = {       
+      name : req.body.corporatemember.name,
+      address : req.body.corporatemember.address,
+      website : req.body.corporatemember.website,
+      head : req.body.corporatemember.head,
+      nature : req.body.corporatemember.nature,
+      type : req.body.corporatemember.type,
+      identity : req.body.corporatemember.identity,
+      gstn : req.body.corporatemember.gstn,
+      dateofincorporation : req.body.corporatemember.dateofincorporation,
+      cdname : req.body.corporatemember.cdname,
+      phone : req.body.corporatemember.phone,
+      email : req.body.corporatemember.email,
+      skillset : req.body.corporatemember.skillset,
+      noofemployees : req.body.corporatemember.noofemployees,
+      nooffreshers : req.body.corporatemember.nooffreshers,
+      noofpatents : req.body.corporatemember.noofpatents,
+      experts : req.body.corporatemember.experts,
+      fresher : req.body.corporatemember.fresher,
+      internship : req.body.corporatemember.internship,
+      training : req.body.corporatemember.training,
+      capstone : req.body.corporatemember.capstone,
+      message : req.body.corporatemember.message
+ }       
+ var corporatemember = new CorporatemembershipregisterData(corporatemember);
+ //corporatemember.save();
+ try{
+  corporatemember.save();
+  sendConfirmationMail(corporatemember, (err, info) => {
+     if (err) {
+       console.log(err);
+       res.status(400);
+       res.send({ error: "Failed to send email" });
+     } else {
+       console.log("Email has been sent");
+       res.send(info);
+     }
+   });
+  }
+  catch(err){
+ 
+     console.log(err+"not connected");
+  }
+});
+
+
+
+
+//--------------------------------------End-------------------------------------------
 app.listen(3000, function(){
     console.log('listening to port 3000');
 });
