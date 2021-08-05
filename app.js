@@ -5,6 +5,7 @@ const InstitutionalRequestdata=require('./src/model/InstitutionalRequest');
 const RetailCoursedata = require('./src/model/RetailCoursedata');
 const InstitutionalCoursedata = require('./src/model/InstitutionalCoursedata');
 const CorporateCoursedata = require('./src/model/CorporateCoursedata');
+const MemberData =require('./src/model/ourteam');
 var nodemailer = require('nodemailer');
 
 //const User = require('./src/model/user');
@@ -589,6 +590,72 @@ app.put('/institutionalcourseupdate/:name',(req,res)=>{
     res.send();
 });
 })
+
+
+// -------------------------Member---------------------------------------------------
+
+app.get('/about',function(req,res){
+  console.log("Inside display server");
+  try{
+  MemberData.find()
+              .then(function(membersdatas){
+                  console.log(membersdatas);
+                  res.send(membersdatas);
+                 
+              });
+          }
+          catch(err){
+              console.log(err+"dispal...");
+          }
+});
+//______________________________End_____________________________________
+
+app.post('/addmember',function(req,res){
+  console.log(req.body);
+     
+  var team=  {
+  
+  name:req.body.team.name,
+  about:req.body.team.about,
+  imageUrl:req.body.team.imageUrl,
+  designation:req.body.team.designation,
+ 
+   }
+   var team = new MemberData(team);
+   team.save();
+});
+//______________________________End_____________________________________
+
+//--------------------------------Delete team member data-----------------
+app.delete("/removemember/:name",(req, res) => {
+ 
+  let name = req.params.name;
+  MemberData.findOneAndDelete({"name":name})
+  .then(()=>{
+      console.log('success')
+      res.send();
+  })
+});
+ 
+//______________________________End_____________________________________
+//--------------------------------update team member data-----------------
+app.put('/updatemember/:name',(req,res)=>{
+  
+  var team=  {
+ 
+    name:req.body.team.name,
+  about:req.body.team.about,
+  imageUrl:req.body.team.imageUrl,
+  designation:req.body.team.designation,
+ 
+     }
+     MemberData.findOneAndUpdate({"name":req.params.name},team)
+ .then(function(){
+    res.send();
+});
+})
+
+// --------------------------------------End----------------------------------------
 app.listen(3000, function(){
     console.log('listening to port 3000');
 });
