@@ -11,6 +11,9 @@ const PartnerData = require('./src/model/Partnershipdata');
 const CorporatemembershipregisterData = require('./src/model/Corporatemembershipregisterdata');
 var nodemailer = require('nodemailer');
 
+
+const port = process.env.PORT || 3000;
+
 //const User = require('./src/model/user');
 const cors = require('cors');
 var app = new express();
@@ -768,6 +771,10 @@ app.post('/insertcorporatemember',function(req,res){
 
 
 //--------------------------------------End-------------------------------------------
-app.listen(3000, function(){
-    console.log('listening to port 3000');
+// app.listen(3000, function(){
+//     console.log('listening to port 3000');
+// });
+
+app.listen(port, () => {
+  console.log("Server is listening on: ", port);
 });
