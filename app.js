@@ -12,7 +12,7 @@ const CorporatemembershipregisterData = require('./src/model/Corporatemembership
 var nodemailer = require('nodemailer');
 
 
-const port = process.env.PORT || 7242;
+const port = process.env.PORT || 3000;
 
 //const User = require('./src/model/user');
 const cors = require('cors');
